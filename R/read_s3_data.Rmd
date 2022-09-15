@@ -1,0 +1,71 @@
+---
+title: "Read parquet files from s3 by using Arrow"
+output: html_document
+---
+
+# Read parque file from object storage (mini)
+
+
+## Step 1. Import packages
+
+Most of the popular packages are already installed, no need to install them
+
+- arrow can read and write data in various format such as parquet
+- dplyr is a grammar of data manipulation, providing a consistent set of 
+  verbs that help you solve the most common data manipulation challenges
+```{r}
+# import the package
+library(arrow)
+library(dplyr, warn.conflicts = FALSE)
+```
+
+## Step 2. Configure a s3 file system
+
+
+Below code will create a virtual filesystem called minio. You could notice that we read the s3 credential from environment
+
+```{r}
+minio <- S3FileSystem$create(
+   access_key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+   secret_key = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+   session_token = Sys.getenv("AWS_SESSION_TOKEN"),
+   scheme = "https",
+   endpoint_override = Sys.getenv("AWS_S3_ENDPOINT")
+   )
+```
+
+
+
+## Step 3. Read the data into memory and return a dataframe
+
+
+```{r}
+# set the data path
+# change the below path to a data path which is in your bucket 
+data_path <- "pengfei/diffusion/data_format/sf_fire/parquet/raw"
+
+# read parquet file
+raw_sf_fire <- open_dataset(
+  minio$path(data_path)
+)
+
+```
+
+Create an arrow file system dataset. We will not load data into R studio for now, it only scan the folder and metadata.
+
+```{r}
+raw_sf_fire
+```
+Load data into memomry by calling collect()
+
+```{r}
+system.time(df_sf_fire <- raw_sf_fire %>%
+  select(IncidentNumber, CallType, CallDate, City, NeighborhoodDistrict) %>%
+  collect())
+```
+Randomly select 10 rows
+
+```{r}
+dplyr::sample_n(df_sf_fire, 10, replace = TRUE)
+
+```
