@@ -2,7 +2,11 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   generateName: pokemon-data-pipeline
+  labels:
+    environment: production
+    app: pokemon
 spec:
+  serviceAccountName: workflow   # the account that allows argo work to launch pods on k8s
   entrypoint: main
   arguments:
     parameters:
