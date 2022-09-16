@@ -28,6 +28,10 @@ The Spark folder contains:
 
 - spark_data_curation.ipynb: A notebook that illustrate a data curation workflow. If **hive-metastore** is enabled, the curated table will be referenced automatically in the [data catalog](https://atlas.lab.sspcloud.fr/index.html#!/search). 
 
+#### Spark on gpu 
+
+To run spark on gpu, the docker image requires special dependencies. So we need to launch a special service called **Rapidsai**. The work directory is **rapidsai/work**, You need to clone your notebook there. 
+
 - spark_on_gpu.ipynb: A notebook that illustrate how to use gpu to do calculations. 
 
 Note the jupyter service in datalab proivdes a **spark ui**, but it's deactivate by default. You need to activate when you launched the service. 
