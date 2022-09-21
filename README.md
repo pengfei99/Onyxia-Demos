@@ -48,8 +48,8 @@ In the `argo_workflow` folder, you can find a [script](argo_workflow/argo_client
 
 You can find a [argo-workflow spec](argo_workflow/pokemon_data_pipeline.yaml) that automate a etl data pipeline which reads data from a file, then clean it and save it to s3 and/or database.  
 
-## 3. Machine Learning
+## 4. Machine Learning
 
-### 3.1 Tensorflow and pytorch
+### 4.1 Tensorflow and pytorch
 
-### 3.2 MLOPs
+### 4.2 MLOPs
