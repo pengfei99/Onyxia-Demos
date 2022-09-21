@@ -4,7 +4,7 @@ metadata:
   generateName: pokemon-data-pipeline
   labels:
     environment: production
-    app: pokemon
+    app: pokemon-etl
 spec:
   serviceAccountName: workflow   # the account that allows argo work to launch pods on k8s
   entrypoint: main
@@ -36,12 +36,6 @@ spec:
             { "file-path": "/mnt/data", "file-name": "pokemon-cleaned.csv" },
             { "file-path": "/mnt/data", "file-name": "pokemon-cleaned.parquet" }
           ]
-      - name: aws-access-id
-        value: "changeMe"
-      - name: aws-secret-key
-        value: "changeMe"
-      - name: aws-session-token
-        value: "changeMe"
       - name: aws-default-region
         value: "us-east-1"
       - name: aws-s3-endpoint
@@ -155,16 +149,20 @@ spec:
           - name: pokemon-workflow-tmp
             mountPath: /mnt
         env:
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: my-s3-creds
+                key: accessKey
           - name: AWS_SECRET_ACCESS_KEY
-            value: "{{workflow.parameters.aws-secret-key}}"
+            valueFrom:
+              secretKeyRef:
+                name: my-s3-creds
+                key: secretKey
           - name: AWS_DEFAULT_REGION
             value: "{{workflow.parameters.aws-default-region}}"
           - name: AWS_S3_ENDPOINT
             value: "{{workflow.parameters.aws-s3-endpoint}}"
-          - name: AWS_SESSION_TOKEN
-            value: "{{workflow.parameters.aws-session-token}}"
-          - name: AWS_ACCESS_KEY_ID
-            value: "{{workflow.parameters.aws-access-id}}"
           - name: PYTHONPATH
             value: "${PYTHONPATH}:/mnt/bin"
           - name: LOG_PATH
@@ -323,16 +321,21 @@ spec:
             value: "${PYTHONPATH}:/mnt/bin"
           - name: LOG_PATH
             value: "{{workflow.parameters.working-data-folder}}"
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: my-s3-creds
+                key: accessKey
           - name: AWS_SECRET_ACCESS_KEY
-            value: "{{workflow.parameters.aws-secret-key}}"
+            valueFrom:
+              secretKeyRef:
+                name: my-s3-creds
+                key: secretKey
           - name: AWS_DEFAULT_REGION
             value: "{{workflow.parameters.aws-default-region}}"
           - name: AWS_S3_ENDPOINT
             value: "{{workflow.parameters.aws-s3-endpoint}}"
-          - name: AWS_SESSION_TOKEN
-            value: "{{workflow.parameters.aws-session-token}}"
-          - name: AWS_ACCESS_KEY_ID
-            value: "{{workflow.parameters.aws-access-id}}"
+        
 
     - name: save-report-to-s3-wt
       container:
@@ -348,16 +351,21 @@ spec:
             value: "${PYTHONPATH}:/mnt/bin"
           - name: LOG_PATH
             value: "{{workflow.parameters.working-data-folder}}"
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: my-s3-creds
+                key: accessKey
           - name: AWS_SECRET_ACCESS_KEY
-            value: "{{workflow.parameters.aws-secret-key}}"
+            valueFrom:
+              secretKeyRef:
+                name: my-s3-creds
+                key: secretKey
           - name: AWS_DEFAULT_REGION
             value: "{{workflow.parameters.aws-default-region}}"
           - name: AWS_S3_ENDPOINT
             value: "{{workflow.parameters.aws-s3-endpoint}}"
-          - name: AWS_SESSION_TOKEN
-            value: "{{workflow.parameters.aws-session-token}}"
-          - name: AWS_ACCESS_KEY_ID
-            value: "{{workflow.parameters.aws-access-id}}"
+          
     - name: save-log-to-s3-wt
       container:
         image: liupengfei99/python38-ds
@@ -372,16 +380,17 @@ spec:
             value: "${PYTHONPATH}:/mnt/bin"
           - name: LOG_PATH
             value: "{{workflow.parameters.working-data-folder}}"
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: my-s3-creds
+                key: accessKey
           - name: AWS_SECRET_ACCESS_KEY
-            value: "{{workflow.parameters.aws-secret-key}}"
+            valueFrom:
+              secretKeyRef:
+                name: my-s3-creds
+                key: secretKey
           - name: AWS_DEFAULT_REGION
             value: "{{workflow.parameters.aws-default-region}}"
           - name: AWS_S3_ENDPOINT
             value: "{{workflow.parameters.aws-s3-endpoint}}"
-          - name: AWS_SESSION_TOKEN
-            value: "{{workflow.parameters.aws-session-token}}"
-          - name: AWS_ACCESS_KEY_ID
-            value: "{{workflow.parameters.aws-access-id}}"
-
-
-
