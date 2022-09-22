@@ -61,12 +61,25 @@ This [notebook](TensorFlow/tensorflow_gpu.ipynb) uses gpu to train a NN to do im
 This [notebook](https://github.com/pengfei99/MLOPS/blob/main/mlops_tutorial.ipynb) shows how to do MLOPS with the services which are provided by Onyxia.
 
 ## 5. BI
+Onyxia provides a set of tools for data analyste to do BI by using `SQL`
+
 ### 5.1 Superset
+Superset is a modern data exploration and data visualization platform. It can can replace or augment proprietary business intelligence tools for many teams.
+
+**Onyxia** empowers superset with `postgres` and `trino` auto connection, which makes your analyze more efficient.
+
 ### 5.2 Trino
+Trino is a distributed sql query engine that can connect to different data source (e.g. s3, rdbms, etc.)
 
 ## 6. Hosting custom applications
 
-Onyxia also allow users to deploy their own applications. 
+Onyxia also allows users to deploy their own applications. In folder `custom_app`, we have three files that can deploy a data visulization application (plotly dash) on Onyxia.
+
+It contains three file:
+
+- [deployment.yaml](custom_app/deployment.yaml) : It runs multiple replicas of our model API and automatically replaces any instances that fail or become unresponsive.
+- [service.yaml](custom_app/service.yaml) : It exposes our model API on Pods as a network service.
+- [ingress.yaml](custom_app/ingress.yaml) : It manages external access to the services via HTTP (e.g. url, ssl, etc.).
 
 
 
