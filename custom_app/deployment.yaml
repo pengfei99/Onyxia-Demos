@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemon-data-viz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pokemon-data-viz
+  template:
+    metadata:
+      labels:
+        app: pokemon-data-viz
+    spec:
+      containers:
+      - name: web-server
+        image: liupengfei99/pokemon-dataviz
+        ports:
+        - containerPort: 8888
+        env:
+          - name: DB_LOGIN # your db server login example: user-pengfei
+            valueFrom:
+              secretKeyRef:
+                name: postgres-login-pwd
+                key: username
+          - name: DB_PWD # your db server password example: toto1234
+            valueFrom:
+              secretKeyRef:
+                name: postgres-login-pwd
+                key: password
+          - name: DB_URL
+            value: "postgresql-511542" # your db server url example: postgresql-124499:5432
+          - name: DB_PORT
+            value: "5432" # your db server port example: 5432
+          - name: DB_NAME
+            value: "defaultdb"  # your db name example: north_wind
+          - name: DB_TABLE_NAME
+            value: "pokemon_stat" # your table name example: pokemon_stat
+        command: [ sh, -c ]
+        args: [ python app.py ]

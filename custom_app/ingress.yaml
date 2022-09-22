@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pokemon-dataviz-ingress
+spec:
+  tls:
+    - hosts:
+        - pokemon-dataviz.lab.sspcloud.fr
+  rules:
+    - host:  pokemon-dataviz.lab.sspcloud.fr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pokemon-data-viz-service
+                port:
+                  number: 80
