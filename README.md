@@ -61,8 +61,12 @@ This [notebook](TensorFlow/tensorflow_gpu.ipynb) uses gpu to train a NN to do im
 This [notebook](https://github.com/pengfei99/MLOPS/blob/main/mlops_tutorial.ipynb) shows how to do MLOPS with the services which are provided by Onyxia.
 
 ## 5. BI
+### 5.1 Superset
+### 5.2 Trino
 
-### 5.1 Trino
-### 5.2 Superset
+## 6. Hosting custom applications
+
+Onyxia also allow users to deploy their own applications. 
+
 
 
