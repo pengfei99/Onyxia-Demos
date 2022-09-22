@@ -32,7 +32,7 @@ The Spark folder contains:
 
 #### Spark on gpu 
 
-To run spark on gpu, the docker image requires special dependencies. So we need to launch a special service called **Rapidsai**. The work directory is **rapidsai/work**, You need to clone your notebook there. 
+To run spark on gpu, it requires special dependencies. So we need to launch a special service called **Rapidsai**. The work directory is **rapidsai/work**, You need to clone your notebook there. 
 
 - [spark_on_gpu.ipynb](Spark/spark_on_gpu.ipynb): A notebook that illustrate how to use gpu to do calculations. 
 
@@ -46,7 +46,7 @@ Onyxia provides **argo workflow** as our workflow automation service. If you hav
  
 In the `argo_workflow` folder, you can find a [script](argo_workflow/argo_client_install.sh) to install the argo-workflow client
 
-You can find a [argo-workflow spec](argo_workflow/pokemon_data_pipeline.yaml) that automate a etl data pipeline which reads data from a file, then clean it and save it to s3 and/or database.  
+You can find a [argo-workflow spec](argo_workflow/pokemon_data_pipeline.yaml) that automate a etl data pipeline which reads data from a file, then clean it and generate a data profiling report. At the end, all resulting data will be saved to s3 and/or database.  
 
 ## 4. Machine Learning
 
