@@ -52,4 +52,17 @@ You can find a [argo-workflow spec](argo_workflow/pokemon_data_pipeline.yaml) th
 
 ### 4.1 Tensorflow and pytorch
 
+Onyxia provides a **Tensorflow** service (jupyter with tensorflow related libraries). We can train model both with `cpu` and `gpu`.
+
+This [notebook](TensorFlow/tensorflow_gpu.ipynb) uses gpu to train a NN to do image classification
+
 ### 4.2 MLOPs
+
+This [notebook](https://github.com/pengfei99/MLOPS/blob/main/mlops_tutorial.ipynb) shows how to do MLOPS with the services which are provided by Onyxia.
+
+## 5. BI
+
+### 5.1 Trino
+### 5.2 Superset
+
+
