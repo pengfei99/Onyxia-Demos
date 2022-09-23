@@ -52,7 +52,7 @@ You can find a [argo-workflow spec](argo_workflow/pokemon_data_pipeline.yaml) th
 
 ### 4.1 Tensorflow and pytorch
 
-Onyxia provides a **Tensorflow** service (jupyter with tensorflow related libraries). We can train model both with `cpu` and `gpu`.
+Onyxia provides a **Tensorflow** service (jupyter with tensorflow related libraries). We can train a model by using `cpu` or `gpu` in this service.
 
 This [notebook](TensorFlow/tensorflow_gpu.ipynb) uses gpu to train a NN to do image classification
 
@@ -77,8 +77,8 @@ Onyxia also allows users to deploy their own applications. In folder `custom_app
 
 It contains three file:
 
-- [deployment.yaml](custom_app/deployment.yaml) : It runs multiple replicas of our model API and automatically replaces any instances that fail or become unresponsive.
-- [service.yaml](custom_app/service.yaml) : It exposes our model API on Pods as a network service.
+- [deployment.yaml](custom_app/deployment.yaml) : It runs multiple replicas of our application and automatically replaces any instances that fail or become unresponsive.
+- [service.yaml](custom_app/service.yaml) : It exposes our application on Pods as a network service.
 - [ingress.yaml](custom_app/ingress.yaml) : It manages external access to the services via HTTP (e.g. url, ssl, etc.).
 
 
