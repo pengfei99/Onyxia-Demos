@@ -1,0 +1,61 @@
+---
+title: "read_data"
+output: html_document
+date: '2022-10-06'
+---
+
+## Step 1. Import packages
+
+Most of the popular packages are already installed, no need to install them
+
+- arrow can read and write data in various format such as parquet
+- dplyr is a grammar of data manipulation, providing a consistent set of 
+  verbs that help you solve the most common data manipulation challenges
+
+```{r}
+library(tidyverse, warn.conflicts = FALSE)
+```
+
+## Step 2. Read data
+
+Below command will read a local dataset of ratings of different chocolate bars.
+
+```{r}
+chocolateData <- read_csv("../data/flavors_of_cacao.csv")
+head(chocolateData)
+```
+
+## Step 3. Clean the data
+
+
+### Replace space with _
+Some of the column names have spaces in them. This line changes the column names to versions without spaces, which let's us talk about the columns by their names.
+```{r}
+names(chocolateData) <- gsub("[[:space:]+]", "_", names(chocolateData))
+head(chocolateData)
+```
+
+### Remove percentage signs
+
+Remove percentage signs in the Cocoa_Percent 
+
+```{r}
+chocolateData$Cocoa_Percent <- sapply(chocolateData$Cocoa_Percent, function(x) gsub("%", "", x))
+head(chocolateData)
+```
+
+
+## Step 4. View the data
+
+Below code draw a plot with "Review_Date" as the x axis and "Rating" as the y axis
+
+- geom_point(): add a point for each data point
+- geom_jitter(): move each point slightly so they don't overlap
+
+```{r}
+ggplot(chocolateData, aes(x= Review_Date, y = Rating, color = Cocoa_Percent)) + geom_point() + geom_jitter()+geom_smooth(method = 'lm')
+```
+
+```{r}
+
+```
