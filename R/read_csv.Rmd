@@ -22,13 +22,18 @@ Below command will read a local dataset of ratings of different chocolate bars.
 
 ```{r}
 chocolateData <- read_csv("../data/flavors_of_cacao.csv")
-head(chocolateData)
+```
+### Show the first 5 rows
+
+```{r}
+head(chocolateData,5)
 ```
 
 ## Step 3. Clean the data
 
 
-### Replace space with _
+### Replace space with _ for column names
+
 Some of the column names have spaces in them. This line changes the column names to versions without spaces, which let's us talk about the columns by their names.
 ```{r}
 names(chocolateData) <- gsub("[[:space:]+]", "_", names(chocolateData))
