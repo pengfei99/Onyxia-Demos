@@ -42,10 +42,10 @@ minio <- S3FileSystem$create(
 ```{r}
 # set the data path
 # change the below path to a data path which is in your bucket 
-data_path <- "pengfei/diffusion/data_format/sf_fire/parquet/raw"
+data_path <- "pengfei/onyxia_demo/flavors_of_cacao.csv"
 
 # read parquet file
-raw_sf_fire <- open_dataset(
+chocolateData <- open_dataset(
   minio$path(data_path)
 )
 
@@ -54,7 +54,7 @@ raw_sf_fire <- open_dataset(
 Create an arrow file system dataset. We will not load data into R studio for now, it only scan the folder and metadata.
 
 ```{r}
-raw_sf_fire
+head(chocolateData,5)
 ```
 Load data into memomry by calling collect()
 
