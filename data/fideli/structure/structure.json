@@ -1,0 +1,72 @@
+[
+  {
+    "name": "dirindik",
+    "type": "STRING",
+    "role": "IDENTIFIER"
+  },
+  {
+    "name": "dirindicsu",
+    "type": "STRING",
+    "role": "IDENTIFIER"
+  },
+  {
+    "name": "dirindia",
+    "type": "STRING",
+    "role": "IDENTIFIER"
+  },
+  {
+    "name": "ind_fisc",
+    "type": "STRING",
+    "role": "MEASURE"
+  },
+  {
+    "name": "id_fisc",
+    "type": "STRING",
+    "role": "MEASURE"
+  },
+  {
+    "name": "sexe",
+    "type": "INTEGER",
+    "role": "MEASURE"
+  },
+  {
+    "name": "pren_1",
+    "type": "STRING",
+    "role": "MEASURE"
+  },
+  {
+    "name": "nais_ind1",
+    "type": "STRING",
+    "role": "MEASURE"
+  },
+  {
+    "name": "anais",
+    "type": "INTEGER",
+    "role": "MEASURE"
+  },
+  {
+    "name": "mnais",
+    "type": "INTEGER",
+    "role": "MEASURE"
+  },
+  {
+    "name": "jnais",
+    "type": "INTEGER",
+    "role": "MEASURE"
+  },
+  {
+    "name": "numero",
+    "type": "INTEGER",
+    "role": "MEASURE"
+  },
+  {
+    "name": "numero1",
+    "type": "INTEGER",
+    "role": "MEASURE"
+  },
+  {
+    "name": "regroup",
+    "type": "STRING",
+    "role": "MEASURE"
+  }
+]
