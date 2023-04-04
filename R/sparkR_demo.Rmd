@@ -1,0 +1,121 @@
+---
+title: "Run sparkR on cluster k8s"
+output: html_document
+---
+
+# Run sparkR on cluster k8s (mini)
+
+
+## Step 1. Import packages
+
+The sparkR package is no longer imported by default due to naming confilct with
+other popular R packages. 
+
+```{r}
+# import the package
+library(SparkR)
+```
+
+## Step 2. Create a spark session
+
+
+Below code will create a spark session. If you want to play this notebook 
+with your account, you need to change the namespace to your account namespace
+
+```{r}
+sparkR.session(master = "k8s://https://kubernetes.default.svc:443",
+               appName = "SparkR",
+               sparkHome = Sys.getenv("SPARK_HOME"),
+               list(spark.kubernetes.container.image=Sys.getenv("IMAGE_NAME"), 
+                    spark.kubernetes.authenticate.driver.serviceAccountName=Sys.getenv("KUBERNETES_SERVICE_ACCOUNT"),
+                    spark.kubernetes.driver.pod.name=Sys.getenv("KUBERNETES_POD_NAME"),
+                    spark.kubernetes.namespace="user-pengfei",
+                    # config pour allocation dynamique
+                    spark.dynamicAllocation.enabled="true",
+                    spark.dynamicAllocation.initialExecutors="1",
+                    spark.dynamicAllocation.minExecutors="1",
+                    spark.dynamicAllocation.maxExecutors="10",
+                    spark.dynamicAllocation.executorAllocationRatio="1",
+                    spark.dynamicAllocation.shuffleTracking.enabled="true"
+                    )
+)
+```
+
+
+
+## Step 3. Read a csv file from s3 server
+
+
+```{r}
+# set the data path
+# change the below path to a data path which is in your bucket 
+df <- read.df(
+  "s3a://projet-spark-lab/diffusion/formation/data/sirene/sirene.csv", 
+  "csv", 
+  header = "true", 
+  inferSchema = "true")
+
+# show the first 5 rows
+head(df,5)
+
+```
+
+
+check the row numbers:
+
+```{r}
+nrow(df)
+```
+check the column numbers
+
+```{r}
+columns(df)
+```
+show the schema of the dataframe
+
+```{r}
+printSchema(df)
+
+```
+## Step 4: Some aggregation functions
+
+```{r}
+# count the etablissement number groupby their principale activity 
+ape_count <- summarize(groupBy(df, df$activitePrincipaleEtablissement), count = n(df$activitePrincipaleEtablissement))
+head(arrange(ape_count, desc(ape_count$count)))
+```
+## Step 5: Persist table into Hive metastore
+
+```{r}
+# create a hive table
+createOrReplaceTempView(df, "sirene")
+
+# check the created table
+head(sql("show tables;"))
+```
+
+Now we can run sql query on **sirene** table
+
+```{r}
+sql_result <- sql("SELECT count(*) as tot , activitePrincipaleEtablissement FROM sirene group by activitePrincipaleEtablissement order by tot desc;")
+
+head(sql_result)
+```
+
+If we don't need the table anymore, we can remove it
+
+```{r}
+sql("drop table sirene;")
+
+# check if the table is deleted
+head(sql("show tables;"))
+
+```
+
+## Step 6: Close the spark session
+
+Don't forget to close the spark session, otherwise the reserved resource will not be released.
+
+```{r}
+sparkR.session.stop()
+```
