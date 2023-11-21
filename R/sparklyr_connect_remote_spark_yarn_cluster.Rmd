@@ -1,0 +1,57 @@
+---
+title: "read_data"
+output: html_document
+date: '2023-11-21'
+---
+
+## Step 1. Import packages
+
+```{r}
+library(sparklyr)
+```
+
+## Step2: Setup env var
+
+```{r}
+Sys.setenv(SPARK_HOME="/opt/spark/spark-3.4.1")
+Sys.setenv(HADOOP_CONF_DIR="/opt/hadoop/etc/hadoop")
+```
+### step3: Load the spark default conf 
+
+Load the spark default conf, we can also overwrite the default conf
+
+In below example, we overright the yarn queue name
+
+```{r}
+conf <- spark_config()
+
+conf$spark.yarn.queue="prod"
+```
+
+## Step4: Create a spark context
+
+If you encounter problems when you create the spark context, you can active the log of backend by runnging below
+command before the sparklyr command
+
+```{r}
+options(sparklyr.log.console = TRUE)
+```
+
+```{r}
+sc <- spark_connect(master = "yarn", spark_home = "/opt/spark/spark-3.4.1", version = "3.4.1", config = conf)
+
+```
+
+## Step5: Read a csv as data frame
+
+```{r}
+spark_read_csv(sc, name = "test", path = "hdfs://10.50.5.67:9000/user/rstudio/flights/airports.csv")
+```
+
+## Step6: Disconnect the spark context
+
+```{r}
+spark_disconnect(sc)
+```
+
+
